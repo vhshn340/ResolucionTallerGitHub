@@ -1,0 +1,66 @@
+---
+name: skills
+description: "Compatibility workspace skill for the TallerGitHub repository when a user or IDE refers to the repository Skills folder. Use for the same IBM i TallerGitHub work as tallergithub-ibmi: SQLRPGLE/RPGLE modules, service programs, SQL table/view scripts, IFS JSON reconciliation output, PUB400 setup, TOBi/makei build configuration, and agent review reports based on Documentacion_IBMi/Requerimientos/requerimientos_taller.md and Reglas/Revision_IBMi.md."
+---
+
+# TallerGitHub Skills Compatibility
+
+Use this as a compatibility alias for the repository-local TallerGitHub IBM i skill.
+
+Prefer the canonical workspace skill `tallergithub-ibmi` when invoking skills directly. If an IDE or prompt refers to the repository `Skills` folder, apply these same rules.
+
+## Core Workflow
+
+1. Read and validate relevant repository files before editing:
+   - `Documentacion_IBMi/Requerimientos/requerimientos_taller.md`
+   - `Reglas/Revision_IBMi.md`
+   - `Documentacion_IBMi/Base_Datos/estructura_bd.md`
+   - `Databases/GLBLN.SQL` when GLBLN fields or SQL scripts are involved
+   - `.vscode/actions.json`, `.vscode/tasks.json`, `iproj.json`, and `Rules.mk` when PUB400, TOBi/makei, compile actions, or environment setup are involved
+2. Preserve the IBM i architecture:
+   - Main SQLRPGLE program orchestrates the process.
+   - Data access is separated from business rules.
+   - Reconciliation rules are separated from JSON/IFS output.
+   - Reusable utilities belong in modules or service programs.
+3. Keep all outputs traceable by execution id, timestamp, program, library, user, and IFS path.
+4. Validate JSON output against the reconciliation contract documented in `Documentacion_IBMi/Requerimientos/requerimientos_taller.md`.
+5. When reviewing, lead with findings ordered by severity and cite files or sections as evidence.
+
+## Implementation Guidance
+
+- Use `GLBLN`, defined in `Databases/GLBLN.SQL`, as the primary source for general ledger account balances.
+- Support filters for bank, branch, currency, account range, process date, output IFS path, and execution mode.
+- Generate UTF-8 JSON in IFS with `metadata`, `ejecucion`, `contexto`, `cuentas`, `controlTotales`, and `incidentes`.
+- Include source, calculated, and reconciled balances for each account.
+- Include reconciliation items when differences exist.
+- Mark `excedeTolerancia` and `requiereRevision` explicitly.
+- Set execution status to `PARCIAL` or `ERROR` when high-severity incidents require it.
+- Keep PUB400 constraints in mind: personal library, SQL tables/views only, no DDS PF/LF objects.
+
+## SQL DDL Rules
+
+For table scripts, enforce the TallerGitHub SQL standard:
+
+- Use `CREATE OR REPLACE TABLE`.
+- Define system column aliases with `FOR COLUMN`.
+- Define a `PRIMARY KEY` with `CONSTRAINT`.
+- Define `RCDFMT`.
+- Include real, non-placeholder metadata header values.
+- Include `COMMENT ON TABLE` and `LABEL ON TABLE`.
+- Include `COMMENT ON COLUMN`, `LABEL ON COLUMN`, and `LABEL ON COLUMN ... TEXT IS` for every column.
+- Do not create PF or LF objects, and do not use DDS artifacts.
+
+## Review Guidance
+
+Use the TallerGitHub severity model:
+
+- Critical: incorrect data, integrity loss, major functional noncompliance, severe vulnerability, invalid required JSON, PF/LF creation, or missing main-flow test evidence.
+- High: operationally relevant failure, no component separation, monolithic critical code, or incomplete table metadata/comments.
+- Medium: maintainability/design issues, inconsistent naming, accumulated technical debt.
+- Low: improvement with no immediate functional impact.
+
+Decision rules:
+
+- `Aprobado`: no Critical/High findings and test evidence exists.
+- `Aprobado con observaciones`: only Medium/Low findings with a correction plan.
+- `Rechazado`: any Critical finding, any High finding that blocks compliance, or missing minimum test evidence.

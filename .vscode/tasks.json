@@ -1,0 +1,37 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Confirm and Sync Resolucion -> PUB400",
+      "type": "shell",
+      "command": "bash",
+      "args": ["${workspaceFolder}/scripts/confirm_sync_pub400.sh", "${input:syncConfirm}"] ,
+      "group": "none",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Watch Resolucion and Sync",
+      "type": "shell",
+      "command": "bash",
+      "args": ["-lc", "watchexec -w \"${workspaceFolder}/Resolucion\" -- bash ${workspaceFolder}/scripts/sync_pub400.sh"],
+      "isBackground": true,
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    }
+  ],
+  "inputs": [
+    {
+      "id": "syncConfirm",
+      "type": "promptString",
+      "description": "¿Desea sincronizar los cambios ahora? Escriba yes para continuar.",
+      "default": "no"
+    }
+  ]
+}
