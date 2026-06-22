@@ -1,5 +1,5 @@
 ---
-name: skills
+name: tallergithub-ibmi
 description: "Compatibility workspace skill for the TallerGitHub repository when a user or IDE refers to the repository Skills folder. Use for the same IBM i TallerGitHub work as tallergithub-ibmi: SQLRPGLE/RPGLE modules, service programs, SQL table/view scripts, IFS JSON reconciliation output, PUB400 setup, TOBi/makei build configuration, and agent review reports based on Documentacion_IBMi/Requerimientos/requerimientos_taller.md and Reglas/Revision_IBMi.md."
 ---
 
