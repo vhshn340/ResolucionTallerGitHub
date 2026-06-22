@@ -15,8 +15,6 @@ Prefer the canonical workspace skill `tallergithub-ibmi` when invoking skills di
    - `Documentacion_IBMi/Requerimientos/requerimientos_taller.md`
    - `Reglas/Revision_IBMi.md`
    - `Documentacion_IBMi/Base_Datos/estructura_bd.md`
-   - `Databases/GLBLN.SQL` when GLBLN fields or SQL scripts are involved
-   - `.vscode/actions.json`, `.vscode/tasks.json`, `iproj.json`, and `Rules.mk` when PUB400, TOBi/makei, compile actions, or environment setup are involved
 2. Preserve the IBM i architecture:
    - Main SQLRPGLE program orchestrates the process.
    - Data access is separated from business rules.
@@ -28,7 +26,6 @@ Prefer the canonical workspace skill `tallergithub-ibmi` when invoking skills di
 
 ## Implementation Guidance
 
-- Use `GLBLN`, defined in `Databases/GLBLN.SQL`, as the primary source for general ledger account balances.
 - Support filters for bank, branch, currency, account range, process date, output IFS path, and execution mode.
 - Generate UTF-8 JSON in IFS with `metadata`, `ejecucion`, `contexto`, `cuentas`, `controlTotales`, and `incidentes`.
 - Include source, calculated, and reconciled balances for each account.
